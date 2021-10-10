@@ -95,7 +95,7 @@ const SolutionForm = ({ tasks }: Props) => {
                         }).catch((error) => {
                             console.log(error)
                         }).finally(() => setLoading(false));
-                    }}>Try<Button> : <div />}
+                    }}>Try</Button> : <div />}
             </Box>
         </div>
 
