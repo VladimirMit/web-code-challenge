@@ -1,5 +1,5 @@
-import SolvePage from "./Pages/SolvePage";
-import TopPage from "./Pages/TopPage";
+import SolvePage from "./pages/SolvePage";
+import TopPage from "./pages/TopPage";
 
 const routes = [
     {

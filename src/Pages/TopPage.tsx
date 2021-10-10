@@ -1,7 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import Leaderboard from '../component/leaderboard';
+import Container from '@mui/material/Container';
+import { TextField } from '@mui/material';
+import useAxios from 'axios-hooks';
+import { TopResponse } from './TopResponse';
 
 const TopPage = () => {
-    return (<div>Top</div>)
+
+    const [{ data, loading, error }, refetch] = useAxios<TopResponse>('https://localhost:44345/Participant?top=3', {
+        useCache: false
+    });
+
+    return (
+        <Container fixed>
+            <Leaderboard loading={loading} rows={data?.participants.map(p => ({ name: p.userName, tasks: p.tasks })) ?? []} />
+        </Container>
+    )
 }
 
-export default TopPage
+export default TopPage;

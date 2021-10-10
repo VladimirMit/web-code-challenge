@@ -5,6 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useHistory } from 'react-router-dom';
+import { Leaderboard as LeaderboardIcon } from '@mui/icons-material';
 
 export default function ButtonAppBar() {
   const history = useHistory();
@@ -16,7 +17,7 @@ export default function ButtonAppBar() {
             Cognizant Code Challenge
           </Typography>
           <Button color="inherit" onClick={() => history.push('/solve')}>Solve</Button>
-          <Button color="inherit" onClick={() => history.push('/top')}>Top</Button>
+          <Button color="inherit" onClick={() => history.push('/top')}><LeaderboardIcon />Top</Button>
         </Toolbar>
       </AppBar>
     </Box>

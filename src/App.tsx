@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom'
 import './App.css';
-import ButtonAppBar from './ButtonAppBar';
+import ButtonAppBar from './component/ButtonAppBar';
 import routes from './app-routes'
 
 function App() {
