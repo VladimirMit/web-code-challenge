@@ -2,6 +2,7 @@ import { Container } from '@mui/material';
 import useAxios from 'axios-hooks';
 import React from 'react';
 import SolutionForm from '../component/solutionForm';
+import { Resources } from '../configuration/Resources';
 
 interface TaskResponse {
     tasks: {
@@ -12,7 +13,7 @@ interface TaskResponse {
 }
 
 const SolvePage = () => {
-    const [{ data, loading, error }, refetch] = useAxios<TaskResponse>('https://localhost:44345/Task');
+    const [{ data, loading, error }, refetch] = useAxios<TaskResponse>(`${Resources.api}/Task`);
 
     return (
         <div>

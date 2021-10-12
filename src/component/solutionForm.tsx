@@ -7,6 +7,7 @@ import { debounce } from 'lodash'
 import { useRef, useState } from "react";
 import { useSnackbar } from "notistack";
 import { Python3Template } from "../codeTemplates";
+import { Resources } from "../configuration/Resources";
 
 interface Props {
     tasks: {
@@ -41,13 +42,13 @@ const SolutionForm = ({ tasks }: Props) => {
     const [solutions, setSolutions] = useState<Solution[]>()
     const submitName = () => {
         setUserLoading(true);
-        axios.post<{ name: string }, AxiosResponse<number>>('https://localhost:44345/Participant/', {
+        axios.post<{ name: string }, AxiosResponse<number>>(`${Resources.api}/Participant/`, {
             name: nameInputEl.current.value
         }).then((response: AxiosResponse<number>) => {
             setUser({ id: response.data, name: nameInputEl.current.value });
             return response.data
         }).then((id) =>
-            axios.get<never, AxiosResponse<{ solutions: Solution[] }>>(`https://localhost:44345/Participant/${id}/solution`)
+            axios.get<never, AxiosResponse<{ solutions: Solution[] }>>(`${Resources.api}/Participant/${id}/solution`)
         ).then((response) => {
             setSolutions(response.data.solutions)
         }).catch(() => {
@@ -125,7 +126,7 @@ const SolutionForm = ({ tasks }: Props) => {
                         variant='contained'
                         onClick={async () => {
                             setLoading(true)
-                            axios.post<AddSolution, AxiosResponse<AddSolutionResponse>>(`https://localhost:44345/Participant/${user.id}/solution`, {
+                            axios.post<AddSolution, AxiosResponse<AddSolutionResponse>>(`${Resources.api}/Participant/${user.id}/solution`, {
                                 taskId: taskId,
                                 code: code,
                                 languageName: 'python3'
@@ -137,7 +138,7 @@ const SolutionForm = ({ tasks }: Props) => {
                                     enqueueSnackbar(`Task \'${tasks.find(t => t.id === taskId)?.name}\' failed!`, { variant: 'error' });
                                 }
                             }).then(() =>
-                                axios.get<never, AxiosResponse<{ solutions: Solution[] }>>(`https://localhost:44345/Participant/${user.id}/solution`)
+                                axios.get<never, AxiosResponse<{ solutions: Solution[] }>>(`${Resources.api}/Participant/${user.id}/solution`)
                             ).then((response) => {
                                 setSolutions(response.data.solutions)
                             }).catch(() => {

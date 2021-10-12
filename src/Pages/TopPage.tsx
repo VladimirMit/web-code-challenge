@@ -4,10 +4,11 @@ import Container from '@mui/material/Container';
 import { TextField } from '@mui/material';
 import useAxios from 'axios-hooks';
 import { TopResponse } from './TopResponse';
+import { Resources } from '../configuration/Resources';
 
 const TopPage = () => {
 
-    const [{ data, loading, error }, refetch] = useAxios<TopResponse>('https://localhost:44345/Participant?top=3', {
+    const [{ data, loading, error }, refetch] = useAxios<TopResponse>(`${Resources.api}/Participant?top=3`, {
         useCache: false
     });
 
