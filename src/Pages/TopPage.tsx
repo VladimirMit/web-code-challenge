@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
 import Leaderboard from '../component/leaderboard';
 import Container from '@mui/material/Container';
-import { TextField } from '@mui/material';
 import useAxios from 'axios-hooks';
 import { TopResponse } from './TopResponse';
 import { Resources } from '../configuration/Resources';

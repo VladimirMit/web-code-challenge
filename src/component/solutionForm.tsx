@@ -1,5 +1,5 @@
 import Editor from "@monaco-editor/react";
-import { FormControl, Select, MenuItem, TextField, Button, Box, CircularProgress } from "@mui/material"
+import { Select, MenuItem, TextField, Button, Box, CircularProgress } from "@mui/material"
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ErrorSharpIcon from '@mui/icons-material/ErrorSharp';
 import axios, { AxiosResponse } from "axios";
@@ -77,7 +77,7 @@ const SolutionForm = ({ tasks }: Props) => {
                     inputRef={nameInputEl}
                     placeholder={'Enter your name...'}
                 />
-                <Button variant='contained' type="button" onClick={submitName}>
+                <Button variant='contained' type="button" disabled={userLoading} onClick={submitName}>
                     {userLoading ? <CircularProgress variant='indeterminate' color='info' size={24} /> : 'Confirm'}
                 </Button>
             </Box>
@@ -89,28 +89,26 @@ const SolutionForm = ({ tasks }: Props) => {
                 }
             >
                 {user && solutions ?
-                    <FormControl fullWidth>
-                        <Select
-                            labelId="demo-simple-select-helper-label"
-                            id="demo-simple-select-helper"
-                            label="Task"
-                            onChange={(event) => {
-                                const taskId = event.target.value as number;
-                                setTaskId(taskId);
-                                const taskSolution = solutions.find(s => s.taskId === taskId);
-                                if (taskSolution?.code)
-                                    setCode(taskSolution.code);
-                                else
-                                    setCode(Python3Template);
-                            }}
-                        >
-                            {tasks.map(t =>
-                                <MenuItem key={t.id} value={t.id}>
-                                    {t.name}
-                                    {!solutions.find(s => s.taskId === t.id) ? <div /> : solutions.find(s => s.taskId === t.id)?.status === 3 ? <CheckCircleOutlineIcon /> : <ErrorSharpIcon />}
-                                </MenuItem>)}
-                        </Select>
-                    </FormControl>
+                    <Select
+                        labelId="demo-simple-select-helper-label"
+                        id="demo-simple-select-helper"
+                        label="Task"
+                        onChange={(event) => {
+                            const taskId = event.target.value as number;
+                            setTaskId(taskId);
+                            const taskSolution = solutions.find(s => s.taskId === taskId);
+                            if (taskSolution?.code)
+                                setCode(taskSolution.code);
+                            else
+                                setCode(Python3Template);
+                        }}
+                    >
+                        {tasks.map(t =>
+                            <MenuItem key={t.id} value={t.id}>
+                                {t.name}
+                                {!solutions.find(s => s.taskId === t.id) ? <div /> : solutions.find(s => s.taskId === t.id)?.status === 3 ? <CheckCircleOutlineIcon /> : <ErrorSharpIcon />}
+                            </MenuItem>)}
+                    </Select>
                     : <div />}
                 {user && taskId ? <p>{tasks.find(t => t.id === taskId)?.description}</p> : <div />}
                 {user && taskId ? <Editor
@@ -124,6 +122,7 @@ const SolutionForm = ({ tasks }: Props) => {
                 {user && taskId && code ?
                     <Button
                         variant='contained'
+                        disabled={loading}
                         onClick={async () => {
                             setLoading(true)
                             axios.post<AddSolution, AxiosResponse<AddSolutionResponse>>(`${Resources.api}/Participant/${user.id}/solution`, {

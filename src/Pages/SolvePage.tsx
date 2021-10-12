@@ -1,6 +1,5 @@
 import { Container } from '@mui/material';
 import useAxios from 'axios-hooks';
-import React from 'react';
 import SolutionForm from '../component/solutionForm';
 import { Resources } from '../configuration/Resources';
 
